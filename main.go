@@ -35,7 +35,13 @@ type JsonLogItem struct {
 
 func main() {
 	wholeMethod := flag.Bool("w", false, "capture events for the whole method, including all subtests")
+	printVersion := flag.Bool("v", false, "print the version and exit")
 	flag.Parse()
+
+	if *printVersion {
+		fmt.Printf("obviate %s\n", version)
+		return
+	}
 
 	input := bufio.NewScanner(os.Stdin)
 	testLines := make([]string, 0)

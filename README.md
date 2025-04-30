@@ -16,5 +16,7 @@ Pass `-w` to obviate to provide the output for an entire failing test, rather th
 
 Example: `encore test -json ./... | obviate -w`
 
+Pass `-v` to obviate to print the version.
+
 ## See also
 This project primarily intended to be used for [Encore](https://encore.dev)'s quite noisy output.
