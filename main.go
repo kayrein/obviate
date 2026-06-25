@@ -35,6 +35,7 @@ type JsonLogItem struct {
 
 func main() {
 	wholeMethod := flag.Bool("w", false, "capture events for the whole method, including all subtests")
+	quiet := flag.Bool("q", false, "suppress output")
 	printVersion := flag.Bool("v", false, "print the version and exit")
 	flag.Parse()
 
@@ -58,7 +59,7 @@ func main() {
 			log.Fatalf("Make sure you run tests with -json (%v)", err)
 		}
 		if data.Action == Start || (data.Action == Run && (!*wholeMethod || !strings.Contains(data.Test, "/"))) {
-			if testFailed {
+			if testFailed && !*quiet {
 				for _, l := range testLines {
 					fmt.Print(l)
 				}
@@ -70,10 +71,13 @@ func main() {
 		}
 		if data.Action == Fail {
 			testFailed = true
+			if *quiet {
+				fmt.Println(data.Test)
+			}
 		}
 	}
 
-	if testFailed { // if the final test has failed, clear the buffer
+	if testFailed && !*quiet { // if the final test has failed, clear the buffer
 		for _, l := range testLines {
 			fmt.Print(l)
 		}
